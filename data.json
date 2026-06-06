@@ -1,0 +1,108 @@
+{
+  "adminPassword": "MilaxKK",
+  "stock": [
+    {
+      "id": "item_1",
+      "name": "HP EliteBook 840 G6",
+      "price": 45000,
+      "quantity": 8
+    },
+    {
+      "id": "item_2",
+      "name": "Samsung Galaxy A34",
+      "price": 28500,
+      "quantity": 15
+    },
+    {
+      "id": "item_3",
+      "name": "Ergonomic Office Chair",
+      "price": 8500,
+      "quantity": 8
+    },
+    {
+      "id": "item_4",
+      "name": "Logitech Wireless Mouse",
+      "price": 1800,
+      "quantity": 25
+    },
+    {
+      "id": "item_5",
+      "name": "Sandisk 64GB Flash Drive",
+      "price": 1200,
+      "quantity": 50
+    },
+    {
+      "id": "item_1780779128496",
+      "name": "USB Type-C Hub",
+      "price": 2500,
+      "quantity": 10
+    }
+  ],
+  "services": [
+    {
+      "id": "service_1",
+      "name": "Computer Repair & Diagnostics",
+      "description": "Full hardware repair, OS installation, and malware removal services.",
+      "price": 2500
+    },
+    {
+      "id": "service_2",
+      "name": "Office CCTV Installation",
+      "description": "Complete setup of surveillance cameras, wiring, and remote viewing configuration.",
+      "price": 15000
+    },
+    {
+      "id": "service_3",
+      "name": "Structured Networking Setup",
+      "description": "Ethernet cabling, router setup, switch configuration, and office Wi-Fi optimization.",
+      "price": 10000
+    },
+    {
+      "id": "service_4",
+      "name": "POS Software Deployment",
+      "description": "Installation, cashier training, and inventory database initialization.",
+      "price": 6000
+    }
+  ],
+  "transactions": [
+    {
+      "id": "SRV_1780779058183_461",
+      "timestamp": "2026-06-06T20:50:58.183Z",
+      "customer": {
+        "firstName": "Jane",
+        "lastName": "Smith",
+        "phone": "0798765432",
+        "location": "Webuye"
+      },
+      "type": "service",
+      "service": {
+        "id": "service_3",
+        "name": "Structured Networking Setup",
+        "price": 10000,
+        "notes": "4 access points"
+      },
+      "total": 10000
+    },
+    {
+      "id": "TXN_1780779005742_262",
+      "timestamp": "2026-06-06T20:50:05.742Z",
+      "customer": {
+        "firstName": "John",
+        "lastName": "Doe",
+        "phone": "0712345678",
+        "location": "Kakamega town"
+      },
+      "type": "sale",
+      "items": [
+        {
+          "id": "item_1",
+          "name": "HP EliteBook 840 G6",
+          "price": 45000,
+          "quantity": 2,
+          "total": 90000
+        }
+      ],
+      "total": 90000
+    }
+  ]
+}

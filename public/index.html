@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Milax Enterprises Limited - POS & Services</title>
+  <meta name="description" content="Milax Enterprises Limited - Quality products, professional services, and persistent point of sale management.">
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Styles -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Toast Notification System -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- Header -->
+  <header class="main-header">
+    <div class="header-container">
+      <div class="logo-area" onclick="navigateTo('home')">
+        <div class="logo-icon">
+          <i data-lucide="activity"></i>
+        </div>
+        <div class="logo-text">
+          <span class="logo-brand">MILAX</span>
+          <span class="logo-sub">Enterprises Ltd</span>
+        </div>
+      </div>
+      <nav class="main-nav">
+        <ul>
+          <li><a href="#" id="nav-home" onclick="navigateTo('home')" class="active"><i data-lucide="home"></i> Home</a></li>
+          <li><a href="#" id="nav-shop" onclick="navigateTo('shop')"><i data-lucide="shopping-bag"></i> Shop Stock</a></li>
+          <li><a href="#" id="nav-services" onclick="navigateTo('services')"><i data-lucide="wrench"></i> Services</a></li>
+          <li><a href="#" id="nav-admin" onclick="navigateTo('admin')" class="admin-nav-btn"><i data-lucide="shield"></i> Manager Portal</a></li>
+        </ul>
+      </nav>
+      <div class="header-actions">
+        <button id="theme-toggle" class="btn-icon" title="Toggle Theme" onclick="toggleTheme()">
+          <i data-lucide="sun" class="sun-icon"></i>
+          <i data-lucide="moon" class="moon-icon"></i>
+        </button>
+        <button id="cart-toggle-btn" class="btn-cart" onclick="toggleCart()">
+          <i data-lucide="shopping-cart"></i>
+          <span class="cart-badge" id="cart-badge-count">0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Wrapper -->
+  <main class="content-wrapper">
+
+    <!-- HOME SECTION -->
+    <section id="section-home" class="view-section active">
+      <div class="hero-container">
+        <div class="hero-text">
+          <span class="badge-accent">Welcome to Milax Enterprises</span>
+          <h1>Your Trusted Partner in <span>Technology</span> & <span>Office Solutions</span></h1>
+          <p>We provide state-of-the-art office equipment, computer hardware, network configurations, POS system setups, and round-the-clock technical maintenance services.</p>
+          <div class="hero-actions">
+            <button class="btn btn-primary" onclick="navigateTo('shop')">Explore Shop <i data-lucide="arrow-right"></i></button>
+            <button class="btn btn-outline" onclick="navigateTo('services')">Our Services</button>
+          </div>
+        </div>
+        <div class="hero-visual">
+          <div class="glass-card contact-widget">
+            <div class="widget-header">
+              <i data-lucide="phone-call" class="accent-color"></i>
+              <h3>Get In Touch</h3>
+            </div>
+            <p class="widget-lead">Contact Milax Enterprises Limited directly for inquiries, custom orders, or immediate assistance.</p>
+            <hr class="widget-divider">
+            <div class="contact-details-list">
+              <div class="contact-item">
+                <i data-lucide="mail"></i>
+                <div class="contact-meta">
+                  <span class="label">Email Us</span>
+                  <a href="mailto:milaxenterprises@gmail.com" class="value">milaxenterprises@gmail.com</a>
+                </div>
+              </div>
+              <div class="contact-item">
+                <i data-lucide="phone"></i>
+                <div class="contact-meta">
+                  <span class="label">Call/WhatsApp</span>
+                  <span class="value">0741933739 / 0741933306</span>
+                </div>
+              </div>
+              <div class="contact-item">
+                <i data-lucide="map-pin"></i>
+                <div class="contact-meta">
+                  <span class="label">Postal Address</span>
+                  <span class="value">P.O. Box 2848 - 50100</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick features grid -->
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon"><i data-lucide="shield-check"></i></div>
+          <h3>Genuine Products</h3>
+          <p>We source computers, network gear, and office accessories directly from official manufacturers.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon"><i data-lucide="cpu"></i></div>
+          <h3>Expert IT Support</h3>
+          <p>Certified software installation, hardware repair, and enterprise network design services.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon"><i data-lucide="truck"></i></div>
+          <h3>Fast Delivery</h3>
+          <p>Enter your location details during checkout, and we'll deliver items straight to your office or doorstep.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SHOP SECTION -->
+    <section id="section-shop" class="view-section">
+      <div class="section-header">
+        <div>
+          <span class="section-tag">Product Catalog</span>
+          <h2>Items Available in Stock</h2>
+          <p>Browse our current inventory. Select your desired quantities and checkout to place your order.</p>
+        </div>
+        <div class="search-bar-container">
+          <i data-lucide="search" class="search-icon"></i>
+          <input type="text" id="product-search" placeholder="Search stock items..." oninput="filterProducts()">
+        </div>
+      </div>
+
+      <div class="products-grid" id="products-container">
+        <!-- Dynamic loading -->
+        <div class="loading-state">
+          <div class="spinner"></div>
+          <p>Fetching inventory...</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SERVICES SECTION -->
+    <section id="section-services" class="view-section">
+      <div class="section-header">
+        <div>
+          <span class="section-tag">Our Capabilities</span>
+          <h2>Professional Technical Services</h2>
+          <p>Choose from our verified expert services. Specify your requirements and request a booking below.</p>
+        </div>
+      </div>
+
+      <div class="services-grid" id="services-container">
+        <!-- Dynamic loading -->
+        <div class="loading-state">
+          <div class="spinner"></div>
+          <p>Loading available services...</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ADMIN LOGIN WALL -->
+    <section id="section-admin-login" class="view-section">
+      <div class="login-card-container">
+        <div class="glass-card login-card">
+          <div class="login-header">
+            <div class="admin-icon-badge">
+              <i data-lucide="lock"></i>
+            </div>
+            <h2>Manager Portal</h2>
+            <p>Enter your administrator password to access sales logs, manage stock, and change configuration.</p>
+          </div>
+          <form id="admin-login-form" onsubmit="handleAdminLogin(event)">
+            <div class="form-group">
+              <label for="admin-password-input">Admin Password</label>
+              <div class="password-input-wrapper">
+                <input type="password" id="admin-password-input" placeholder="Enter password..." required>
+                <button type="button" class="btn-toggle-password" onclick="togglePasswordVisibility('admin-password-input')">
+                  <i data-lucide="eye" id="password-eye-icon"></i>
+                </button>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary w-full">Access Dashboard <i data-lucide="unlock"></i></button>
+          </form>
+          <div class="login-footer">
+            <p>Default password: <code>MilaxKK</code></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ADMIN DASHBOARD SECTION -->
+    <section id="section-admin-dashboard" class="view-section">
+      <div class="dashboard-layout">
+        <!-- Dashboard Sidebar -->
+        <aside class="dashboard-sidebar">
+          <div class="sidebar-user">
+            <div class="avatar"><i data-lucide="user-check"></i></div>
+            <div>
+              <h4>Administrator</h4>
+              <span class="status-online">Active Session</span>
+            </div>
+          </div>
+          <ul class="sidebar-menu">
+            <li><a href="#" id="db-tab-overview" class="active" onclick="switchDashboardTab('overview')"><i data-lucide="layout-dashboard"></i> Overview</a></li>
+            <li><a href="#" id="db-tab-inventory" onclick="switchDashboardTab('inventory')"><i data-lucide="package"></i> Manage Stock</a></li>
+            <li><a href="#" id="db-tab-services" onclick="switchDashboardTab('services')"><i data-lucide="briefcase"></i> Manage Services</a></li>
+            <li><a href="#" id="db-tab-transactions" onclick="switchDashboardTab('transactions')"><i data-lucide="receipt"></i> Transactions Log</a></li>
+            <li><a href="#" id="db-tab-settings" onclick="switchDashboardTab('settings')"><i data-lucide="settings"></i> Password & Settings</a></li>
+          </ul>
+          <div class="sidebar-footer">
+            <button class="btn btn-danger w-full" onclick="handleAdminLogout()"><i data-lucide="log-out"></i> Logout</button>
+          </div>
+        </aside>
+
+        <!-- Dashboard Content -->
+        <div class="dashboard-content">
+
+          <!-- OVERVIEW TAB -->
+          <div id="db-panel-overview" class="db-panel active">
+            <div class="db-title-bar">
+              <h2>Dashboard Overview</h2>
+              <span class="db-date-indicator" id="db-current-time">June 6, 2026</span>
+            </div>
+
+            <!-- Stats cards -->
+            <div class="stats-grid">
+              <div class="stat-card">
+                <div class="stat-header">
+                  <span>TOTAL SALES REVENUE</span>
+                  <i data-lucide="dollar-sign" class="stat-icon-sales"></i>
+                </div>
+                <div class="stat-value" id="stat-revenue">KES 0.00</div>
+                <div class="stat-footer">Cumulative sales and services</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-header">
+                  <span>TOTAL TRANSACTIONS</span>
+                  <i data-lucide="shopping-cart" class="stat-icon-orders"></i>
+                </div>
+                <div class="stat-value" id="stat-orders-count">0</div>
+                <div class="stat-footer">Completed orders & bookings</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-header">
+                  <span>INVENTORY ITEMS</span>
+                  <i data-lucide="box" class="stat-icon-items"></i>
+                </div>
+                <div class="stat-value" id="stat-items-count">0</div>
+                <div class="stat-footer">Distinct product lines in stock</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-header">
+                  <span>LOW STOCK WARNINGS</span>
+                  <i data-lucide="alert-triangle" class="stat-icon-warning"></i>
+                </div>
+                <div class="stat-value text-warning" id="stat-low-stock-count">0</div>
+                <div class="stat-footer">Items with less than 5 units</div>
+              </div>
+            </div>
+
+            <!-- Chart and Low Stock Grid -->
+            <div class="dashboard-details-grid">
+              <div class="glass-card chart-card">
+                <div class="card-header">
+                  <h3>Recent Sales Activity</h3>
+                  <span class="legend"><span class="dot primary-dot"></span> Transactions</span>
+                </div>
+                <div class="chart-container-wrapper">
+                  <!-- Custom SVG Chart -->
+                  <div class="svg-chart-container" id="svg-sales-chart">
+                    <!-- Dynamic rendering -->
+                  </div>
+                </div>
+              </div>
+              <div class="glass-card low-stock-card">
+                <div class="card-header">
+                  <h3>Low Stock Alerts</h3>
+                  <i data-lucide="bell" class="alert-bell"></i>
+                </div>
+                <div class="low-stock-list" id="dashboard-low-stock-list">
+                  <!-- Dynamic low stock alerts -->
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- INVENTORY MANAGEMENT TAB -->
+          <div id="db-panel-inventory" class="db-panel">
+            <div class="db-title-bar">
+              <h2>Inventory Stock Management</h2>
+            </div>
+            
+            <div class="management-columns">
+              <!-- Add new item form -->
+              <div class="glass-card form-card">
+                <h3>Add New Stock Item</h3>
+                <form id="add-stock-form" onsubmit="handleAddStockItem(event)">
+                  <div class="form-group">
+                    <label for="stock-name">Item Name</label>
+                    <input type="text" id="stock-name" placeholder="e.g. Dell Latitude 5420" required>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label for="stock-price">Price (KES)</label>
+                      <input type="number" id="stock-price" min="0" step="0.5" placeholder="e.g. 52000" required>
+                    </div>
+                    <div class="form-group">
+                      <label for="stock-qty">Quantity Available</label>
+                      <input type="number" id="stock-qty" min="0" placeholder="e.g. 10" required>
+                    </div>
+                  </div>
+                  <button type="submit" class="btn btn-success w-full"><i data-lucide="plus"></i> Add Item to Stock</button>
+                </form>
+              </div>
+              
+              <!-- Stock List Table -->
+              <div class="glass-card table-card">
+                <h3>Current Stock List</h3>
+                <div class="table-container">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Item ID</th>
+                        <th>Item Name</th>
+                        <th class="text-right">Price (KES)</th>
+                        <th class="text-center">Stock Level</th>
+                        <th class="text-center">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody id="admin-stock-table-body">
+                      <!-- Dynamic -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- SERVICES MANAGEMENT TAB -->
+          <div id="db-panel-services" class="db-panel">
+            <div class="db-title-bar">
+              <h2>Manage Listed Services</h2>
+            </div>
+
+            <div class="management-columns">
+              <!-- Add new service form -->
+              <div class="glass-card form-card">
+                <h3>Add New Service</h3>
+                <form id="add-service-form" onsubmit="handleAddService(event)">
+                  <div class="form-group">
+                    <label for="service-name">Service Title</label>
+                    <input type="text" id="service-name" placeholder="e.g. Wi-Fi Router Troubleshooting" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="service-price">Estimate Cost / Flat Rate (KES)</label>
+                    <input type="number" id="service-price" min="0" step="0.5" placeholder="e.g. 3500" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="service-desc">Description</label>
+                    <textarea id="service-desc" rows="4" placeholder="Briefly describe what this service covers..." required></textarea>
+                  </div>
+                  <button type="submit" class="btn btn-success w-full"><i data-lucide="plus"></i> Publish Service</button>
+                </form>
+              </div>
+
+              <!-- Services List Table -->
+              <div class="glass-card table-card">
+                <h3>Published Services</h3>
+                <div class="table-container">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Service Name</th>
+                        <th>Description</th>
+                        <th class="text-right">Rate (KES)</th>
+                        <th class="text-center">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody id="admin-services-table-body">
+                      <!-- Dynamic -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- TRANSACTIONS LOG TAB -->
+          <div id="db-panel-transactions" class="db-panel">
+            <div class="db-title-bar">
+              <h2>Sales & Bookings Ledger</h2>
+              <button class="btn btn-outline btn-sm" onclick="fetchTransactions()"><i data-lucide="rotate-cw"></i> Refresh</button>
+            </div>
+
+            <div class="glass-card table-card">
+              <div class="ledger-header">
+                <h3>All Transactions</h3>
+                <div class="filter-actions">
+                  <select id="transaction-filter-type" onchange="filterTransactions()">
+                    <option value="all">All Types</option>
+                    <option value="sale">Products Sold</option>
+                    <option value="service">Services Booked</option>
+                  </select>
+                </div>
+              </div>
+              <div class="table-container">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Transaction ID / Date</th>
+                      <th>Customer Details</th>
+                      <th>Type</th>
+                      <th>Purchased Items / Selected Services</th>
+                      <th>Delivery Location</th>
+                      <th class="text-right">Total (KES)</th>
+                    </tr>
+                  </thead>
+                  <tbody id="admin-transactions-table-body">
+                    <!-- Dynamic -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- SETTINGS TAB -->
+          <div id="db-panel-settings" class="db-panel">
+            <div class="db-title-bar">
+              <h2>Administrator Settings</h2>
+            </div>
+
+            <div class="settings-grid-layout">
+              <!-- Change Password Form -->
+              <div class="glass-card form-card max-w-md">
+                <h3><i data-lucide="key"></i> Update Credentials</h3>
+                <p class="settings-hint">Change the manager panel password. You will need this password to log back in.</p>
+                <hr class="widget-divider">
+                <form id="change-password-form" onsubmit="handleChangePassword(event)">
+                  <div class="form-group">
+                    <label for="new-password-input">New Password</label>
+                    <div class="password-input-wrapper">
+                      <input type="password" id="new-password-input" placeholder="Minimum 4 characters..." required>
+                      <button type="button" class="btn-toggle-password" onclick="togglePasswordVisibility('new-password-input')">
+                        <i data-lucide="eye" id="new-password-eye-icon"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="confirm-password-input">Confirm New Password</label>
+                    <div class="password-input-wrapper">
+                      <input type="password" id="confirm-password-input" placeholder="Repeat new password..." required>
+                      <button type="button" class="btn-toggle-password" onclick="togglePasswordVisibility('confirm-password-input')">
+                        <i data-lucide="eye" id="confirm-password-eye-icon"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <button type="submit" class="btn btn-primary w-full">Update Password <i data-lucide="save"></i></button>
+                </form>
+              </div>
+
+              <!-- System Diagnostics/Status -->
+              <div class="glass-card diagnostics-card">
+                <h3><i data-lucide="server"></i> POS System Information</h3>
+                <hr class="widget-divider">
+                <div class="diagnostic-list">
+                  <div class="diag-item">
+                    <span class="diag-label">Store Identity</span>
+                    <span class="diag-value font-bold">Milax Enterprises Limited</span>
+                  </div>
+                  <div class="diag-item">
+                    <span class="diag-label">Database Mode</span>
+                    <span class="diag-value badge badge-success">Persistent File Store (JSON)</span>
+                  </div>
+                  <div class="diag-item">
+                    <span class="diag-label">Connection Status</span>
+                    <span class="diag-value text-success font-bold"><i data-lucide="check-circle" class="inline-icon"></i> Connected to server</span>
+                  </div>
+                  <div class="diag-item">
+                    <span class="diag-label">Server Version</span>
+                    <span class="diag-value">v1.0.0 (Node.js 24)</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- CART SIDE PANEL -->
+  <div id="cart-side-panel" class="cart-side-panel">
+    <div class="cart-panel-overlay" onclick="toggleCart()"></div>
+    <div class="cart-panel-content">
+      <div class="cart-panel-header">
+        <h2>Your Shopping Cart</h2>
+        <button class="btn-icon" onclick="toggleCart()"><i data-lucide="x"></i></button>
+      </div>
+
+      <div class="cart-items-container" id="cart-items-list">
+        <!-- Dynamic -->
+        <div class="cart-empty-message">
+          <i data-lucide="shopping-cart"></i>
+          <p>Your cart is empty.</p>
+          <button class="btn btn-primary btn-sm" onclick="toggleCart()">Browse Inventory</button>
+        </div>
+      </div>
+
+      <!-- Checkout Container -->
+      <div class="cart-panel-footer" id="cart-footer-area" style="display: none;">
+        <div class="cart-summary">
+          <div class="summary-line">
+            <span>Subtotal</span>
+            <span id="cart-summary-subtotal">KES 0.00</span>
+          </div>
+          <div class="summary-line total">
+            <span>Total</span>
+            <span id="cart-summary-total">KES 0.00</span>
+          </div>
+        </div>
+
+        <form id="checkout-form" class="checkout-form" onsubmit="handleCheckout(event)">
+          <h3>Customer Information</h3>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="cust-firstname">First Name</label>
+              <input type="text" id="cust-firstname" placeholder="First Name" required>
+            </div>
+            <div class="form-group">
+              <label for="cust-lastname">Last Name</label>
+              <input type="text" id="cust-lastname" placeholder="Last Name" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="cust-phone">Phone Number</label>
+            <input type="tel" id="cust-phone" placeholder="e.g. 0741933739" required>
+          </div>
+          <div class="form-group">
+            <label for="cust-location">Delivery Location</label>
+            <textarea id="cust-location" rows="2" placeholder="e.g. Kakamega Town, Milimani Estate" required></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary w-full" id="btn-submit-order">Place Order (KES 0.00)</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- SERVICE BOOKING MODAL -->
+  <div id="service-booking-modal" class="modal">
+    <div class="modal-overlay" onclick="closeServiceBookingModal()"></div>
+    <div class="modal-content glass-card">
+      <div class="modal-header">
+        <h2 id="modal-service-title">Book Service</h2>
+        <button class="btn-icon" onclick="closeServiceBookingModal()"><i data-lucide="x"></i></button>
+      </div>
+      <div class="modal-body">
+        <p class="service-price-tag" id="modal-service-price">Rate: KES 0.00</p>
+        <p class="service-desc-preview" id="modal-service-desc">Service Description</p>
+        
+        <form id="service-booking-form" class="booking-form" onsubmit="handleServiceBooking(event)">
+          <input type="hidden" id="booking-service-id">
+          
+          <h3>Client Contact Details</h3>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="book-firstname">First Name</label>
+              <input type="text" id="book-firstname" placeholder="First Name" required>
+            </div>
+            <div class="form-group">
+              <label for="book-lastname">Last Name</label>
+              <input type="text" id="book-lastname" placeholder="Last Name" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="book-phone">Phone Number</label>
+            <input type="tel" id="book-phone" placeholder="e.g. 0741933739" required>
+          </div>
+          <div class="form-group">
+            <label for="book-location">Service Location / Address</label>
+            <textarea id="book-location" rows="2" placeholder="e.g. Office Suite 4B, Kakamega Plaza" required></textarea>
+          </div>
+          <div class="form-group">
+            <label for="book-notes">Special Instructions or Notes (Optional)</label>
+            <textarea id="book-notes" rows="2" placeholder="Describe specific issues or custom configuration requirements..."></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary w-full">Submit Booking Request</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="main-footer">
+    <div class="footer-container">
+      <div class="footer-brand">
+        <span class="footer-logo">MILAX Enterprises Limited</span>
+        <p>Providing cutting-edge software development, POS installations, networking solutions, and superior computer sales.</p>
+      </div>
+      <div class="footer-contact">
+        <h4>Official Contact Channels</h4>
+        <ul>
+          <li><i data-lucide="map-pin"></i> P.O. Box 2848 - 50100, Kakamega, Kenya</li>
+          <li><i data-lucide="phone"></i> 0741933739 / 0741933306</li>
+          <li><i data-lucide="mail"></i> <a href="mailto:milaxenterprises@gmail.com">milaxenterprises@gmail.com</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Milax Enterprises Limited. All Rights Reserved.</p>
+    </div>
+  </footer>
+
+  <!-- App Logic script -->
+  <script src="app.js"></script>
+</body>
+</html>
