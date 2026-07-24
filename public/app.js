@@ -159,15 +159,50 @@ function showToast(message, type = 'success') {
 }
 
 // FLYER SLIDER LOGIC
-const totalSlides = 5;
+let totalSlides = 0;
 let sliderIndex = 0;
 let sliderTimer = null;
 
 function initSlider() {
-  goToSlide(0);
-  sliderTimer = setInterval(() => {
-    sliderNext();
-  }, 5000);
+  loadFlyers();
+  // Slider will start after flyers are loaded and totalSlides set
+}
+
+function loadFlyers() {
+  fetch('/flyers.json')
+    .then(res => res.json())
+    .then(data => {
+      const track = document.getElementById('flyer-track');
+      if (!track) return;
+      track.innerHTML = '';
+      data.flyers.forEach((f, i) => {
+        const slide = document.createElement('div');
+        slide.className = 'flyer-slide';
+        const img = document.createElement('img');
+        img.src = f.src;
+        img.alt = f.alt;
+        img.loading = 'lazy';
+        slide.appendChild(img);
+        track.appendChild(slide);
+      });
+      // Create navigation dots
+      const slider = document.getElementById('flyer-slider');
+      const existingDots = slider.querySelectorAll('.slider-dot');
+      existingDots.forEach(d => d.remove());
+      data.flyers.forEach((_, i) => {
+        const dot = document.createElement('span');
+        dot.className = 'slider-dot' + (i === 0 ? ' active' : '');
+        dot.addEventListener('click', () => goToSlide(i));
+        slider.appendChild(dot);
+      });
+      totalSlides = data.flyers.length;
+      // Start the slider after content is ready
+      goToSlide(0);
+      sliderTimer = setInterval(() => {
+        sliderNext();
+      }, 5000);
+    })
+    .catch(err => console.error('Failed to load flyers:', err));
 }
 
 function goToSlide(index) {
@@ -430,7 +465,7 @@ function renderCart() {
         </div>
         <div class="cart-item-actions">
           <span class="cart-item-qty">${c.quantity} x</span>
-          <button class="btn-icon btn-sm" style="width: 28px; height: 28px; border-color: var(--color-danger); color: var(--color-danger);" onclick="removeFromCart('${c.id}')">
+          <div class="slider-dots" id="slider-dots"></div>  <button class="btn-icon btn-sm" style="width: 28px; height: 28px; border-color: var(--color-danger); color: var(--color-danger);" onclick="removeFromCart('${c.id}')">
             <i data-lucide="trash-2" style="width: 14px; height: 14px;"></i>
           </button>
         </div>
@@ -784,7 +819,7 @@ function renderTransactionsTable(transactionsList) {
     if (isService) {
       purchaseDetails = `
         <div class="items-list-block">
-          <div class="item-list-row"><strong>Service:</strong> ${txn.service.name}</div>
+          <div class="item-list-row"><div class="flyer-track" id="flyer-track"></div><strong>Service:</strong> ${txn.service.name}</div>
           ${txn.service.notes ? `<div class="item-list-row" style="font-size: 0.8rem; color: var(--text-secondary);">Notes: "${txn.service.notes}"</div>` : ''}
         </div>
       `;

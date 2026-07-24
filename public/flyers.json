@@ -1,0 +1,9 @@
+{
+  "flyers": [
+    { "src": "/images/flyer1.jpg", "alt": "Milax Flyer 1" },
+    { "src": "/images/flyer2.jpg", "alt": "Milax Flyer 2" },
+    { "src": "/images/flyer3.jpg", "alt": "Milax Flyer 3" },
+    { "src": "/images/flyer4.jpg", "alt": "Milax Flyer 4" },
+    { "src": "/images/flyer5.jpg", "alt": "Milax Flyer 5" }
+  ]
+}

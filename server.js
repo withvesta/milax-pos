@@ -298,6 +298,22 @@ app.post('/api/admin/change-password', adminAuth, (req, res) => {
   res.json({ success: true, message: "Password updated successfully." });
 });
 
+// Flyer's JSON endpoint
+app.get('/api/flyers', (req, res) => {
+  const flyersPath = path.join(__dirname, 'flyers.json');
+  if (!fs.existsSync(flyersPath)) {
+    return res.status(404).json({ success: false, message: 'Flyers data not found.' });
+  }
+  try {
+    const data = fs.readFileSync(flyersPath, 'utf8');
+    const json = JSON.parse(data);
+    res.json(json);
+  } catch (err) {
+    console.error('Error reading flyers.json:', err);
+    res.status(500).json({ success: false, message: 'Server error reading flyers.' });
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`Milax Enterprises POS server running at http://localhost:${PORT}`);
 });
