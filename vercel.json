@@ -1,27 +1,13 @@
 {
   "version": 2,
-  "builds": [
+  "rewrites": [
     {
-      "src": "server.js",
-      "use": "@vercel/node"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/images/(.*)",
-      "dest": "/public/images/$1"
+      "source": "/api/(.*)",
+      "destination": "/server.js"
     },
     {
-      "src": "/flyers.json",
-      "dest": "/public/flyers.json"
-    },
-    {
-      "src": "/(.*\\.(css|js|ico|png|jpg|jpeg|svg|webp|woff|woff2|ttf))",
-      "dest": "/public/$1"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/server.js"
+      "source": "/(.*)",
+      "destination": "/public/$1"
     }
   ]
 }
