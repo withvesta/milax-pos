@@ -129,19 +129,6 @@ document.addEventListener('DOMContentLoaded', () => {
   
   // Initialize Lucide icons
   lucide.createIcons();
-
-  // Start flyer slider auto-play
-  initSlider();
-
-  // Image preview listeners
-  const stockImgInput = document.getElementById('stock-image');
-  if (stockImgInput) {
-    stockImgInput.addEventListener('change', () => previewImage('stock-image', 'stock-img-preview', 'stock-img-preview-src'));
-  }
-  const serviceImgInput = document.getElementById('service-image');
-  if (serviceImgInput) {
-    serviceImgInput.addEventListener('change', () => previewImage('service-image', 'service-img-preview', 'service-img-preview-src'));
-  }
 });
 
 // Toast notification helper
@@ -166,126 +153,6 @@ function showToast(message, type = 'success') {
     toast.style.animation = 'slideInToast 0.3s reverse forwards';
     setTimeout(() => toast.remove(), 300);
   }, 4000);
-}
-
-// ============================================================
-// FLYER SLIDER
-// ============================================================
-const FLYER_IMAGES = [
-  '/images/flyer1.jpg',
-  '/images/flyer2.jpg',
-  '/images/flyer3.jpg',
-  '/images/flyer4.jpg',
-  '/images/flyer5.jpg'
-];
-let sliderIndex = 0;
-let sliderTimer = null;
-
-function initSlider() {
-  goToSlide(0);
-  sliderTimer = setInterval(() => {
-    sliderNext();
-  }, 5000);
-}
-
-function goToSlide(index) {
-  sliderIndex = index;
-  const track = document.getElementById('flyer-track');
-  if (!track) return;
-  track.style.transform = `translateX(-${sliderIndex * 100}%)`;
-  
-  // Update dots
-  document.querySelectorAll('.slider-dot').forEach((dot, i) => {
-    dot.classList.toggle('active', i === sliderIndex);
-  });
-}
-
-function sliderNext() {
-  goToSlide((sliderIndex + 1) % FLYER_IMAGES.length);
-}
-
-function sliderPrev() {
-  goToSlide((sliderIndex - 1 + FLYER_IMAGES.length) % FLYER_IMAGES.length);
-}
-
-// ============================================================
-// LIGHTBOX
-// ============================================================
-let lightboxIndex = 0;
-
-function openLightbox(index) {
-  lightboxIndex = index;
-  const modal = document.getElementById('lightbox-modal');
-  if (!modal) return;
-  updateLightboxImage();
-  modal.classList.add('active');
-  document.body.style.overflow = 'hidden';
-  // Pause slider while lightbox is open
-  clearInterval(sliderTimer);
-}
-
-function closeLightbox() {
-  const modal = document.getElementById('lightbox-modal');
-  if (modal) modal.classList.remove('active');
-  document.body.style.overflow = '';
-  // Resume slider
-  sliderTimer = setInterval(sliderNext, 5000);
-}
-
-function lightboxNext() {
-  lightboxIndex = (lightboxIndex + 1) % FLYER_IMAGES.length;
-  updateLightboxImage();
-}
-
-function lightboxPrev() {
-  lightboxIndex = (lightboxIndex - 1 + FLYER_IMAGES.length) % FLYER_IMAGES.length;
-  updateLightboxImage();
-}
-
-function updateLightboxImage() {
-  const img = document.getElementById('lightbox-img');
-  const counter = document.getElementById('lightbox-counter');
-  const dl = document.getElementById('lightbox-download');
-  const src = FLYER_IMAGES[lightboxIndex];
-  if (img) img.src = src;
-  if (counter) counter.textContent = `${lightboxIndex + 1} / ${FLYER_IMAGES.length}`;
-  if (dl) { dl.href = src; dl.download = src.split('/').pop(); }
-  lucide.createIcons();
-}
-
-// Close lightbox on Escape key
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') closeLightbox();
-  if (e.key === 'ArrowRight') { const m = document.getElementById('lightbox-modal'); if (m && m.classList.contains('active')) lightboxNext(); }
-  if (e.key === 'ArrowLeft')  { const m = document.getElementById('lightbox-modal'); if (m && m.classList.contains('active')) lightboxPrev(); }
-});
-
-// ============================================================
-// IMAGE PREVIEW HELPER
-// ============================================================
-function previewImage(inputId, wrapId, imgId) {
-  const input = document.getElementById(inputId);
-  const wrap  = document.getElementById(wrapId);
-  const img   = document.getElementById(imgId);
-  if (!input || !input.files || !input.files[0]) { if (wrap) wrap.style.display = 'none'; return; }
-  const reader = new FileReader();
-  reader.onload = (e) => {
-    if (img) img.src = e.target.result;
-    if (wrap) wrap.style.display = 'block';
-  };
-  reader.readAsDataURL(input.files[0]);
-}
-
-// Helper: read file input as Base64 data URL
-function readFileAsBase64(inputId) {
-  return new Promise((resolve) => {
-    const input = document.getElementById(inputId);
-    if (!input || !input.files || !input.files[0]) { resolve(null); return; }
-    const reader = new FileReader();
-    reader.onload = (e) => resolve(e.target.result);
-    reader.onerror = () => resolve(null);
-    reader.readAsDataURL(input.files[0]);
-  });
 }
 
 // View Controller (SPA Routing)
@@ -405,14 +272,9 @@ function renderProducts(items) {
         </div>
       `;
     }
-
-    const imageHtml = item.image
-      ? `<div class="prod-image-wrap"><img src="${item.image}" alt="${item.name}" class="prod-image" loading="lazy"></div>`
-      : `<div class="prod-image-wrap prod-image-placeholder"><i data-lucide="package" style="width:40px;height:40px;"></i></div>`;
     
     return `
       <div class="product-card">
-        ${imageHtml}
         <div class="prod-details">
           ${badgeHtml}
           <h3 class="prod-title">${item.name}</h3>
@@ -628,12 +490,8 @@ function renderServices(services) {
   }
   
   container.innerHTML = services.map(s => {
-    const imageHtml = s.image
-      ? `<div class="service-image-wrap"><img src="${s.image}" alt="${s.name}" class="service-image" loading="lazy"></div>`
-      : `<div class="service-image-wrap service-image-placeholder"><i data-lucide="wrench" style="width:36px;height:36px;"></i></div>`;
     return `
       <div class="service-card">
-        ${imageHtml}
         <div class="service-header-part">
           <h3>${s.name}</h3>
           <div class="service-price-tag">KES ${s.price.toLocaleString(undefined, {minimumFractionDigits: 2})}</div>
@@ -1000,15 +858,12 @@ async function handleAddStockItem(event) {
     showToast("Invalid inputs.", "warning");
     return;
   }
-
-  // Read image if selected
-  const imageBase64 = await readFileAsBase64('stock-image');
   
   try {
     const response = await fetch('/api/admin/stock', {
       method: 'POST',
       headers: getAdminHeaders(),
-      body: JSON.stringify({ name, price, quantity, image: imageBase64 })
+      body: JSON.stringify({ name, price, quantity })
     });
     
     const result = await response.json();
@@ -1016,7 +871,6 @@ async function handleAddStockItem(event) {
     
     showToast(`Stock item '${name}' registered successfully!`);
     document.getElementById('add-stock-form').reset();
-    document.getElementById('stock-img-preview').style.display = 'none';
     fetchAdminStockList();
   } catch (err) {
     console.error(err);
@@ -1103,15 +957,12 @@ async function handleAddService(event) {
     showToast("Invalid fields.", "warning");
     return;
   }
-
-  // Read image if selected
-  const imageBase64 = await readFileAsBase64('service-image');
   
   try {
     const response = await fetch('/api/admin/services', {
       method: 'POST',
       headers: getAdminHeaders(),
-      body: JSON.stringify({ name, price, description, image: imageBase64 })
+      body: JSON.stringify({ name, price, description })
     });
     
     const result = await response.json();
@@ -1119,7 +970,6 @@ async function handleAddService(event) {
     
     showToast(`Service '${name}' published.`);
     document.getElementById('add-service-form').reset();
-    document.getElementById('service-img-preview').style.display = 'none';
     fetchAdminServicesList();
   } catch (err) {
     console.error(err);

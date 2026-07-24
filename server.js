@@ -7,35 +7,10 @@ const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 3000;
 const DATA_FILE = path.join(__dirname, 'data.json');
-const UPLOADS_DIR = path.join(__dirname, 'public', 'uploads');
-
-// Ensure uploads directory exists
-if (!fs.existsSync(UPLOADS_DIR)) {
-  fs.mkdirSync(UPLOADS_DIR, { recursive: true });
-}
 
 app.use(cors());
-app.use(bodyParser.json({ limit: '10mb' }));
-app.use(bodyParser.urlencoded({ limit: '10mb', extended: true }));
+app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
-
-// Helper function to save a Base64 image and return its public path
-function saveBase64Image(base64Data, prefix) {
-  try {
-    // Strip the data URL header (e.g. "data:image/png;base64,")
-    const matches = base64Data.match(/^data:([A-Za-z-+/]+);base64,(.+)$/);
-    if (!matches || matches.length !== 3) return null;
-    const extension = matches[1].split('/')[1].replace('jpeg', 'jpg');
-    const buffer = Buffer.from(matches[2], 'base64');
-    const filename = `${prefix}_${Date.now()}.${extension}`;
-    const filepath = path.join(UPLOADS_DIR, filename);
-    fs.writeFileSync(filepath, buffer);
-    return `/uploads/${filename}`;
-  } catch (err) {
-    console.error('Error saving image:', err);
-    return null;
-  }
-}
 
 // Helper function to read database
 function readDB() {
@@ -219,7 +194,7 @@ app.get('/api/admin/transactions', adminAuth, (req, res) => {
 
 // Add new stock item
 app.post('/api/admin/stock', adminAuth, (req, res) => {
-  const { name, price, quantity, image } = req.body;
+  const { name, price, quantity } = req.body;
   
   if (!name || price === undefined || quantity === undefined) {
     return res.status(400).json({ success: false, message: "Please specify item name, price, and quantity." });
@@ -236,23 +211,11 @@ app.post('/api/admin/stock', adminAuth, (req, res) => {
   }
   
   const db = readDB();
-  
-  // Handle image: Base64 string → save to file; plain URL → use as-is
-  let imagePath = null;
-  if (image) {
-    if (image.startsWith('data:')) {
-      imagePath = saveBase64Image(image, 'stock');
-    } else if (image.startsWith('http') || image.startsWith('/')) {
-      imagePath = image;
-    }
-  }
-  
   const newItem = {
     id: 'item_' + Date.now(),
     name: name.trim(),
     price: parsedPrice,
-    quantity: parsedQuantity,
-    image: imagePath
+    quantity: parsedQuantity
   };
   
   db.stock.push(newItem);
@@ -279,7 +242,7 @@ app.delete('/api/admin/stock/:id', adminAuth, (req, res) => {
 
 // Add new service
 app.post('/api/admin/services', adminAuth, (req, res) => {
-  const { name, description, price, image } = req.body;
+  const { name, description, price } = req.body;
   
   if (!name || price === undefined) {
     return res.status(400).json({ success: false, message: "Please specify service name and price." });
@@ -291,23 +254,11 @@ app.post('/api/admin/services', adminAuth, (req, res) => {
   }
   
   const db = readDB();
-  
-  // Handle image: Base64 string → save to file; plain URL → use as-is
-  let imagePath = null;
-  if (image) {
-    if (image.startsWith('data:')) {
-      imagePath = saveBase64Image(image, 'service');
-    } else if (image.startsWith('http') || image.startsWith('/')) {
-      imagePath = image;
-    }
-  }
-  
   const newService = {
     id: 'service_' + Date.now(),
     name: name.trim(),
     description: (description || "").trim(),
-    price: parsedPrice,
-    image: imagePath
+    price: parsedPrice
   };
   
   db.services.push(newService);

@@ -77,13 +77,6 @@
             <hr class="widget-divider">
             <div class="contact-details-list">
               <div class="contact-item">
-                <i data-lucide="map-pin"></i>
-                <div class="contact-meta">
-                  <span class="label">Physical Address</span>
-                  <span class="value">Equity Bank Kakamega, after ATM door, next door Cyber</span>
-                </div>
-              </div>
-              <div class="contact-item">
                 <i data-lucide="mail"></i>
                 <div class="contact-meta">
                   <span class="label">Email Us</span>
@@ -93,68 +86,22 @@
               <div class="contact-item">
                 <i data-lucide="phone"></i>
                 <div class="contact-meta">
-                  <span class="label">Call / WhatsApp</span>
-                  <span class="value">0756 976 447 &nbsp;|&nbsp; 0768 443 573</span>
+                  <span class="label">Call/WhatsApp</span>
+                  <span class="value">0741933739 / 0741933306</span>
+                </div>
+              </div>
+              <div class="contact-item">
+                <i data-lucide="map-pin"></i>
+                <div class="contact-meta">
+                  <span class="label">Postal Address</span>
+                  <span class="value">P.O. Box 2848 - 50100</span>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-      
-    </section>
 
-    <!-- PROMO GALLERY SECTION -->
-    <section id="section-gallery" class="gallery-section">
-      <div class="gallery-header">
-        <span class="section-tag">Our Services &amp; Promotions</span>
-        <h2>What We Offer</h2>
-        <p>Browse our promotional flyers to discover the full range of services and products at Milax Enterprises Limited.</p>
-      </div>
-      <!-- Slider -->
-      <div class="flyer-slider" id="flyer-slider">
-        <div class="flyer-track" id="flyer-track">
-          <div class="flyer-slide" onclick="openLightbox(0)">
-            <img src="/images/flyer1.jpg" alt="Milax Services Flyer 1" loading="lazy">
-            <div class="flyer-overlay"><i data-lucide="zoom-in"></i></div>
-          </div>
-          <div class="flyer-slide" onclick="openLightbox(1)">
-            <img src="/images/flyer2.jpg" alt="Milax Services Flyer 2" loading="lazy">
-            <div class="flyer-overlay"><i data-lucide="zoom-in"></i></div>
-          </div>
-          <div class="flyer-slide" onclick="openLightbox(2)">
-            <img src="/images/flyer3.jpg" alt="Milax Branding Services Flyer" loading="lazy">
-            <div class="flyer-overlay"><i data-lucide="zoom-in"></i></div>
-          </div>
-          <div class="flyer-slide" onclick="openLightbox(3)">
-            <img src="/images/flyer4.jpg" alt="Milax Printers &amp; Stationery Flyer" loading="lazy">
-            <div class="flyer-overlay"><i data-lucide="zoom-in"></i></div>
-          </div>
-          <div class="flyer-slide" onclick="openLightbox(4)">
-            <img src="/images/flyer5.jpg" alt="Milax Calendar 2026" loading="lazy">
-            <div class="flyer-overlay"><i data-lucide="zoom-in"></i></div>
-          </div>
-        </div>
-        <!-- Nav arrows -->
-        <button class="slider-btn slider-prev" id="slider-prev" onclick="sliderPrev()" aria-label="Previous">
-          <i data-lucide="chevron-left"></i>
-        </button>
-        <button class="slider-btn slider-next" id="slider-next" onclick="sliderNext()" aria-label="Next">
-          <i data-lucide="chevron-right"></i>
-        </button>
-        <!-- Dots -->
-        <div class="slider-dots" id="slider-dots">
-          <span class="slider-dot active" onclick="goToSlide(0)"></span>
-          <span class="slider-dot" onclick="goToSlide(1)"></span>
-          <span class="slider-dot" onclick="goToSlide(2)"></span>
-          <span class="slider-dot" onclick="goToSlide(3)"></span>
-          <span class="slider-dot" onclick="goToSlide(4)"></span>
-        </div>
-      </div>
-    </section>
-
-    <!-- HOME SECTION (continued) -->
-    <section id="section-home-features">
       <!-- Quick features grid -->
       <div class="features-grid">
         <div class="feature-card">
@@ -172,6 +119,24 @@
           <h3>Fast Delivery</h3>
           <p>Enter your location details during checkout, and we'll deliver items straight to your office or doorstep.</p>
         </div>
+      </div>
+    </section>
+
+    <!-- FLYERS / PROMOTIONS -->
+    <section id="section-flyers" class="view-section">
+      <div class="section-header">
+        <div>
+          <span class="section-tag">Promotions</span>
+          <h2>Our Services &amp; Offers</h2>
+          <p>View our latest promotional flyers below.</p>
+        </div>
+      </div>
+      <div class="flyers-grid">
+        <img src="/images/flyer1.jpg" alt="Milax Flyer 1">
+        <img src="/images/flyer2.jpg" alt="Milax Flyer 2">
+        <img src="/images/flyer3.jpg" alt="Milax Flyer 3">
+        <img src="/images/flyer4.jpg" alt="Milax Flyer 4">
+        <img src="/images/flyer5.jpg" alt="Milax Flyer 5">
       </div>
     </section>
 
@@ -368,13 +333,6 @@
                       <input type="number" id="stock-qty" min="0" placeholder="e.g. 10" required>
                     </div>
                   </div>
-                  <div class="form-group">
-                    <label for="stock-image">Product Image (Optional)</label>
-                    <input type="file" id="stock-image" accept="image/*" class="file-input">
-                    <div class="img-preview-wrap" id="stock-img-preview" style="display:none;">
-                      <img id="stock-img-preview-src" src="" alt="Preview">
-                    </div>
-                  </div>
                   <button type="submit" class="btn btn-success w-full"><i data-lucide="plus"></i> Add Item to Stock</button>
                 </form>
               </div>
@@ -424,13 +382,6 @@
                   <div class="form-group">
                     <label for="service-desc">Description</label>
                     <textarea id="service-desc" rows="4" placeholder="Briefly describe what this service covers..." required></textarea>
-                  </div>
-                  <div class="form-group">
-                    <label for="service-image">Service Image (Optional)</label>
-                    <input type="file" id="service-image" accept="image/*" class="file-input">
-                    <div class="img-preview-wrap" id="service-img-preview" style="display:none;">
-                      <img id="service-img-preview-src" src="" alt="Preview">
-                    </div>
                   </div>
                   <button type="submit" class="btn btn-success w-full"><i data-lucide="plus"></i> Publish Service</button>
                 </form>
@@ -674,11 +625,9 @@
       <div class="footer-contact">
         <h4>Official Contact Channels</h4>
         <ul>
-          <li><i data-lucide="map-pin"></i> Equity Bank Kakamega, after ATM door, next door Cyber</li>
           <li><i data-lucide="map-pin"></i> P.O. Box 2848 - 50100, Kakamega, Kenya</li>
-          <li><i data-lucide="phone"></i> 0756 976 447 &nbsp;/&nbsp; 0768 443 573</li>
+          <li><i data-lucide="phone"></i> 0741933739 / 0741933306</li>
           <li><i data-lucide="mail"></i> <a href="mailto:milaxenterprises@gmail.com">milaxenterprises@gmail.com</a></li>
-          <li><i data-lucide="mail"></i> <a href="mailto:milaxenterprise@gmail.com">milaxenterprise@gmail.com</a></li>
         </ul>
       </div>
     </div>
@@ -686,28 +635,6 @@
       <p>&copy; 2026 Milax Enterprises Limited. All Rights Reserved.</p>
     </div>
   </footer>
-
-  <!-- LIGHTBOX MODAL -->
-  <div id="lightbox-modal" class="lightbox-modal" onclick="closeLightbox()">
-    <div class="lightbox-content" onclick="event.stopPropagation()">
-      <button class="lightbox-close" onclick="closeLightbox()" aria-label="Close">
-        <i data-lucide="x"></i>
-      </button>
-      <button class="lightbox-nav lightbox-prev" onclick="lightboxPrev()" aria-label="Previous">
-        <i data-lucide="chevron-left"></i>
-      </button>
-      <img id="lightbox-img" src="" alt="Flyer" class="lightbox-image">
-      <button class="lightbox-nav lightbox-next" onclick="lightboxNext()" aria-label="Next">
-        <i data-lucide="chevron-right"></i>
-      </button>
-      <div class="lightbox-footer">
-        <span id="lightbox-counter">1 / 5</span>
-        <a id="lightbox-download" href="" download class="btn btn-outline btn-sm">
-          <i data-lucide="download"></i> Download
-        </a>
-      </div>
-    </div>
-  </div>
 
   <!-- App Logic script -->
   <script src="app.js"></script>
