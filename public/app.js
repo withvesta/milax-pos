@@ -187,22 +187,27 @@ function loadFlyers() {
       });
       // Create navigation dots
       const slider = document.getElementById('flyer-slider');
-      const existingDots = slider.querySelectorAll('.slider-dot');
-      existingDots.forEach(d => d.remove());
+      const dotsContainer = document.getElementById('slider-dots');
+      if (dotsContainer) dotsContainer.innerHTML = '';
       data.flyers.forEach((_, i) => {
         const dot = document.createElement('span');
         dot.className = 'slider-dot' + (i === 0 ? ' active' : '');
         dot.addEventListener('click', () => goToSlide(i));
-        slider.appendChild(dot);
+        if (dotsContainer) dotsContainer.appendChild(dot);
       });
       totalSlides = data.flyers.length;
-      // Start the slider after content is ready
       goToSlide(0);
-      sliderTimer = setInterval(() => {
-        sliderNext();
-      }, 5000);
+      if (sliderTimer) clearInterval(sliderTimer);
+      sliderTimer = setInterval(() => sliderNext(), 5000);
     })
-    .catch(err => console.error('Failed to load flyers:', err));
+    .catch(err => {
+      console.warn('Dynamic flyer load fallback:', err);
+      const existingSlides = document.querySelectorAll('.flyer-slide');
+      totalSlides = existingSlides.length || 5;
+      goToSlide(0);
+      if (sliderTimer) clearInterval(sliderTimer);
+      sliderTimer = setInterval(() => sliderNext(), 5000);
+    });
 }
 
 function goToSlide(index) {
