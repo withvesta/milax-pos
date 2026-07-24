@@ -1,9 +1,9 @@
 {
   "flyers": [
-    { "src": "/images/flyer1.jpg", "alt": "Milax Flyer 1" },
-    { "src": "/images/flyer2.jpg", "alt": "Milax Flyer 2" },
-    { "src": "/images/flyer3.jpg", "alt": "Milax Flyer 3" },
-    { "src": "/images/flyer4.jpg", "alt": "Milax Flyer 4" },
-    { "src": "/images/flyer5.jpg", "alt": "Milax Flyer 5" }
+    { "src": "https://dafvnfmdcioaaxyabjli.supabase.co/storage/v1/object/public/product-images/flyers/flyer-1.jpg", "alt": "Milax Services Flyer" },
+    { "src": "https://dafvnfmdcioaaxyabjli.supabase.co/storage/v1/object/public/product-images/flyers/flyer-2.jpg", "alt": "Milax Corporate Catalog" },
+    { "src": "https://dafvnfmdcioaaxyabjli.supabase.co/storage/v1/object/public/product-images/flyers/flyer-3.jpg", "alt": "Printers & Custom Apparel" },
+    { "src": "https://dafvnfmdcioaaxyabjli.supabase.co/storage/v1/object/public/product-images/flyers/flyer-4.jpg", "alt": "Milax Branding Solutions" },
+    { "src": "https://dafvnfmdcioaaxyabjli.supabase.co/storage/v1/object/public/product-images/flyers/flyer-5.jpg", "alt": "Milax 2026 Calendar" }
   ]
 }
