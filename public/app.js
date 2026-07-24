@@ -129,6 +129,9 @@ document.addEventListener('DOMContentLoaded', () => {
   
   // Initialize Lucide icons
   lucide.createIcons();
+  
+  // Start flyer slider
+  initSlider();
 });
 
 // Toast notification helper
@@ -153,6 +156,37 @@ function showToast(message, type = 'success') {
     toast.style.animation = 'slideInToast 0.3s reverse forwards';
     setTimeout(() => toast.remove(), 300);
   }, 4000);
+}
+
+// FLYER SLIDER LOGIC
+const totalSlides = 5;
+let sliderIndex = 0;
+let sliderTimer = null;
+
+function initSlider() {
+  goToSlide(0);
+  sliderTimer = setInterval(() => {
+    sliderNext();
+  }, 5000);
+}
+
+function goToSlide(index) {
+  sliderIndex = index;
+  const track = document.getElementById('flyer-track');
+  if (!track) return;
+  track.style.transform = `translateX(-${sliderIndex * 100}%)`;
+  
+  document.querySelectorAll('.slider-dot').forEach((dot, i) => {
+    dot.classList.toggle('active', i === sliderIndex);
+  });
+}
+
+function sliderNext() {
+  goToSlide((sliderIndex + 1) % totalSlides);
+}
+
+function sliderPrev() {
+  goToSlide((sliderIndex - 1 + totalSlides) % totalSlides);
 }
 
 // View Controller (SPA Routing)
